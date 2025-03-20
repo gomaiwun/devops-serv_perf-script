@@ -33,18 +33,21 @@ This project consists of a Bash script that collects and presents system informa
     chmod +x sys_info_report.sh
 
 ## Running the script
+
    - To execute the script, run the command below. Upon execution, the script will create a file named sys_info_page.html in the current directory containing the system information.:
 
    ``` bash
    ./sys_info_report.sh
 
 ## Viweing the report
+
     - OPen the generated HTML file in a web browser
     ```bash
     xdg-open sys_info_page.html  # For Linux
     open sys_info_page.html       # For macOS
 
 ## Customization
+
     - You can modify the script if you need to change the HTML output format, add more statistics, or change the styling.
  
 
