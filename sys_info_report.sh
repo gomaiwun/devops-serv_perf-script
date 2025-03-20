@@ -32,6 +32,31 @@ report_cpu_usage() {
     top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}'
 }
 
+# Function to report total CPU usage
+report_total_cpu_usage() {
+    top -bn1 | grep "Cpu(s)" | awk '{print "Total CPU Usage: " 100 - $8"%"}'
+}
+
+# Function to report total memory usage
+report_total_memory_usage() {
+    free -h | awk '/Mem:/ {print "Total Memory Usage: " $3 "/" $2 " (" $3/$2*100 "%)"}'
+}
+
+# Function to report total disk usage
+report_total_disk_usage() {
+    df -h --total | awk '/total/ {print "Total Disk Usage: " $3 "/" $2 " (" $5 ")"}'
+}
+
+# Function to report top 5 processes by CPU usage
+report_top_cpu_processes() {
+    ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%cpu | head -n 6
+}
+
+# Function to report top 5 processes by memory usage
+report_top_memory_processes() {
+    ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head -n 6
+}
+
 # Function to report logged in users
 report_logged_in_users() {
     who
@@ -88,6 +113,16 @@ generate_html() {
     <pre>$(report_memory_usage)</pre>
     <h2>CPU Usage</h2>
     <pre>$(report_cpu_usage)</pre>
+    <h2>Total CPU Usage</h2>
+    <pre>$(report_total_cpu_usage)</pre>
+    <h2>Total Memory Usage</h2>
+    <pre>$(report_total_memory_usage)</pre>
+    <h2>Total Disk Usage</h2>
+    <pre>$(report_total_disk_usage)</pre>
+    <h2>Top 5 Processes by CPU Usage</h2>
+    <pre>$(report_top_cpu_processes)</pre>
+    <h2>Top 5 Processes by Memory Usage</h2>
+    <pre>$(report_top_memory_processes)</pre>
     <h2>Logged In Users</h2>
     <pre>$(report_logged_in_users)</pre>
     <h2>System Load</h2>
